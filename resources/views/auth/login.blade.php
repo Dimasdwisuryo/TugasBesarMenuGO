@@ -1,47 +1,81 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - MenuGO</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="antialiased bg-gray-50">
+    <div class="min-h-screen flex flex-col justify-center items-center p-4">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        <div class="max-w-md w-full bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-gray-100">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black text-gray-800 tracking-tight">
+                    <span class="text-green-600">Menu</span>GO
+                </h2>
+                <p class="mt-2 text-sm text-gray-500 font-medium">
+                    Silakan masuk ke akun Anda
+                </p>
+            </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+            @if (session('status'))
+                <div class="mb-4 font-medium text-sm text-green-600 text-center">
+                    {{ session('status') }}
+                </div>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                @csrf
+
+                <div>
+                    <label for="email" class="block text-sm font-bold text-gray-700 mb-2 ml-1">Alamat Email</label>
+                    <input id="email"
+                           class="block w-full px-5 py-4 rounded-2xl border-gray-200 bg-gray-50 focus:border-green-500 focus:ring-green-500 transition duration-200 shadow-sm"
+                           type="email"
+                           name="email"
+                           placeholder="name@example.com"
+                           value="{{ old('email') }}"
+                           required autofocus />
+                    @error('email')
+                        <p class="text-red-500 text-xs mt-2 ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-bold text-gray-700 mb-2 ml-1">Password</label>
+                    <input id="password"
+                           class="block w-full px-5 py-4 rounded-2xl border-gray-200 bg-gray-50 focus:border-green-500 focus:ring-green-500 transition duration-200 shadow-sm"
+                           type="password"
+                           name="password"
+                           placeholder="Masukkan password"
+                           required />
+                    @error('password')
+                        <p class="text-red-500 text-xs mt-2 ml-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-4 rounded-2xl shadow-lg shadow-green-200 text-sm font-bold text-white bg-green-600 hover:bg-green-700 transition duration-300 transform hover:-translate-y-1">
+                        Masuk Sekarang
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-10 text-center">
+                <p class="text-sm text-gray-600">
+                    Belum punya akun?
+                    <a href="{{ route('register') }}" class="font-bold text-green-600 hover:text-green-700 transition">
+                        Daftar di sini
+                    </a>
+                </p>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+
+        <div class="mt-8 text-center text-xs text-gray-400 font-medium">
+            © 2025 MenuGO Project - Tugas Besar
+        </div>
+    </div>
+</body>
+</html>
