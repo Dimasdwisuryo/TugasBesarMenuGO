@@ -1,52 +1,79 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daftar - MenuGO</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="antialiased bg-gray-50">
+    <div class="min-h-screen flex flex-col justify-center items-center p-4">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="max-w-md w-full bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-gray-100">
+
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-gray-800 tracking-tight">
+                    <span class="text-green-600">Menu</span>GO
+                </h2>
+                <p class="mt-2 text-sm text-gray-500 font-medium px-4 leading-relaxed">
+                    Daftar akun untuk mulai mendigitalkan UMKM Anda
+                </p>
+            </div>
+
+            <form method="POST" action="{{ route('register') }}" class="space-y-4">
+                @csrf
+
+                <div>
+                    <label for="name" class="block text-sm font-bold text-gray-700 mb-1.5 ml-1">Nama Lengkap</label>
+                    <input id="name"
+                           class="block w-full px-5 py-3.5 rounded-2xl border-gray-200 bg-gray-50 focus:border-green-500 focus:ring-green-500 transition"
+                           type="text" name="name" placeholder="Masukkan nama lengkap" value="{{ old('name') }}" required />
+                    @error('name') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-bold text-gray-700 mb-1.5 ml-1">Alamat Email</label>
+                    <input id="email"
+                           class="block w-full px-5 py-3.5 rounded-2xl border-gray-200 bg-gray-50 focus:border-green-500 focus:ring-green-500 transition"
+                           type="email" name="email" placeholder="name@example.com" value="{{ old('email') }}" required />
+                    @error('email') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-bold text-gray-700 mb-1.5 ml-1">Password</label>
+                    <input id="password"
+                           class="block w-full px-5 py-3.5 rounded-2xl border-gray-200 bg-gray-50 focus:border-green-500 focus:ring-green-500 transition"
+                           type="password" name="password" placeholder="Minimal 8 karakter" required />
+                    @error('password') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-bold text-gray-700 mb-1.5 ml-1">Konfirmasi Password</label>
+                    <input id="password_confirmation"
+                           class="block w-full px-5 py-3.5 rounded-2xl border-gray-200 bg-gray-50 focus:border-green-500 focus:ring-green-500 transition"
+                           type="password" name="password_confirmation" placeholder="Ulangi password" required />
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit" class="w-full py-4 rounded-full shadow-lg shadow-green-200 text-sm font-extrabold text-white bg-green-600 hover:bg-green-700 transition transform hover:-translate-y-1">
+                        Daftar Sekarang
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-600">
+                    Sudah punya akun?
+                    <a href="{{ route('login') }}" class="font-bold text-green-600 hover:text-green-700 transition">
+                        Masuk di sini
+                    </a>
+                </p>
+            </div>
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="mt-8 text-center text-xs text-gray-400 font-medium">
+            © 2025 MenuGO Project - Tugas Besar
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</body>
+</html>
